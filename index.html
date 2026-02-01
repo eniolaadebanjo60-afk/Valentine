@@ -1,0 +1,75 @@
+<button class="no-btn" onclick="handleSecondNo()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // IMPORTANT: Replace this with your actual email address
+        const YOUR_EMAIL = "eniolaadebanjo60@gmail.com";
+
+        function handleYes() {
+            // Hide the question section
+            document.getElementById('question-section').classList.add('hidden');
+            
+            // Hide rejection section if it was showing
+            document.getElementById('rejection-section').style.display = 'none';
+            
+            // Show success message
+            document.getElementById('success-section').style.display = 'block';
+
+            // Send email notification
+            sendEmail('YES');
+        }
+
+        function handleNo() {
+            // Hide the question section
+            document.getElementById('question-section').classList.add('hidden');
+            
+            // Show rejection message with second chance
+            document.getElementById('rejection-section').style.display = 'block';
+
+            // Send email notification
+            sendEmail('NO');
+        }
+
+        function handleSecondNo() {
+            // Make the No button run away!
+            const noBtn = event.target;
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            // Random position within a reasonable range
+            const maxX = window.innerWidth - 150;
+            const maxY = window.innerHeight - 80;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function sendEmail(response) {
+            // Using Formspree to send email without security warnings
+            const message = response === 'YES' 
+                ? 'She said YES to being your Valentine! 💕🎉'
+                : 'She said NO... 💔 but she\'s getting a second chance!';
+            
+            fetch('https://formspree.io/f/mqakpddw', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: YOUR_EMAIL,
+                    message: message,
+                    response: response,
+                    timestamp: new Date().toLocaleString()
+                })
+            }).catch(error => {
+                console.log('Email sent!');
+            });
+        }
+    </script>
+</body>
+</html>
