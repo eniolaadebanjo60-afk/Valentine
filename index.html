@@ -13,16 +13,66 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Floating hearts in background */
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.6;
+            animation: float 15s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+            50% {
+                transform: translateY(-60px) rotate(-10deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+        }
+
+        .floating-heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .floating-heart:nth-child(2) { left: 20%; top: 60%; animation-delay: 2s; }
+        .floating-heart:nth-child(3) { left: 80%; top: 30%; animation-delay: 4s; }
+        .floating-heart:nth-child(4) { left: 70%; top: 70%; animation-delay: 1s; }
+        .floating-heart:nth-child(5) { left: 40%; top: 10%; animation-delay: 3s; }
+        .floating-heart:nth-child(6) { left: 90%; top: 80%; animation-delay: 5s; }
+        .floating-heart:nth-child(7) { left: 15%; top: 85%; animation-delay: 2.5s; }
+        .floating-heart:nth-child(8) { left: 60%; top: 15%; animation-delay: 4.5s; }
+
         .container {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 50px 40px;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -30,6 +80,8 @@
             max-width: 500px;
             width: 100%;
             animation: fadeIn 0.8s ease-in;
+            position: relative;
+            z-index: 10;
         }
 
         @keyframes fadeIn {
@@ -82,11 +134,21 @@
         .yes-btn {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
+            transition: all 0.5s ease;
         }
 
         .yes-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .yes-btn.pulse {
+            animation: pulse 0.8s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .no-btn {
@@ -122,9 +184,125 @@
         .hidden {
             display: none;
         }
+
+        .baby-warning {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideDown 0.5s ease, shake 0.5s ease 0.5s infinite;
+            max-width: 90%;
+        }
+
+        @keyframes slideDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(-50%) rotate(0deg); }
+            25% { transform: translateX(-50%) rotate(-5deg); }
+            75% { transform: translateX(-50%) rotate(5deg); }
+        }
+
+        .baby-warning.show {
+            display: block;
+        }
+
+        .baby-emoji {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .baby-message {
+            font-size: 18px;
+            color: #e63946;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        /* Confetti and Balloons */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .balloon {
+            position: fixed;
+            font-size: 50px;
+            animation: balloon-rise 4s ease-in forwards;
+        }
+
+        @keyframes balloon-rise {
+            to {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        .celebration-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
+    <!-- Floating hearts background -->
+    <div class="floating-heart">💖</div>
+    <div class="floating-heart">💕</div>
+    <div class="floating-heart">💗</div>
+    <div class="floating-heart">💓</div>
+    <div class="floating-heart">💝</div>
+    <div class="floating-heart">💘</div>
+    <div class="floating-heart">💞</div>
+    <div class="floating-heart">❤️</div>
+
+    <div class="celebration-container" id="celebration-container"></div>
+    
+    <div class="baby-warning" id="baby-warning">
+        <span class="baby-emoji">👶</span>
+        <div class="baby-message">
+            Go and tap YES now or else<br>
+            no kisses, hugs and cuddles for you! 😤
+        </div>
+    </div>
+
     <div class="container">
         <div class="heart">💖</div>
         <h1>Will You Be My Valentine?</h1>
@@ -138,8 +316,7 @@
 
         <div id="success-section" class="success-message">
             <div class="celebration">🎉 💕 🎉</div>
-            <h2>Yay, you're now Adebanjo's Valentine!</h2>
-            <p>💖</p>
+            <h2>Thank you my baby, I love you. 😂❤️</h2>
         </div>
 
         <div id="rejection-section" class="success-message" style="background: #f8d7da; border-color: #f5c6cb; color: #721c24; display: none;">
@@ -156,8 +333,28 @@
     <script>
         // IMPORTANT: Replace this with your actual email address
         const YOUR_EMAIL = "eniolaadebanjo60@gmail.com";
+        let noClickCount = 0;
+
+        const noMessages = [
+            "No",
+            "Why baby? 🥹",
+            "Don't you love me anymore? 😔", 
+            "Please baby, I'll treat you right 🥲",
+            "Really? 😤"
+        ];
+
+        const yesButtonColors = [
+            "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+            "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
+            "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
+            "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+            "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)"
+        ];
 
         function handleYes() {
+            // Hide the baby warning if it's showing
+            document.getElementById('baby-warning').classList.remove('show');
+            
             // Hide the question section
             document.getElementById('question-section').classList.add('hidden');
             
@@ -167,58 +364,115 @@
             // Show success message
             document.getElementById('success-section').style.display = 'block';
 
+            // Trigger confetti and balloons celebration
+            createCelebration();
+
             // Send email notification
             sendEmail('YES');
         }
 
-        function handleNo() {
-            // Hide the question section
-            document.getElementById('question-section').classList.add('hidden');
-            
-            // Show rejection message with second chance
-            document.getElementById('rejection-section').style.display = 'block';
+        function createCelebration() {
+            const container = document.getElementById('celebration-container');
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7', '#a29bfe', '#fd79a8', '#fdcb6e'];
+            const balloonEmojis = ['🎈', '🎉', '🎊', '💕', '❤️', '💖', '🌟', '✨'];
 
-            // Send email notification
-            sendEmail('NO');
+            // Create confetti
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = -10 + 'px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+
+            // Create balloons
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.textContent = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                    balloon.style.left = Math.random() * 90 + '%';
+                    balloon.style.bottom = -60 + 'px';
+                    container.appendChild(balloon);
+
+                    setTimeout(() => balloon.remove(), 4000);
+                }, i * 200);
+            }
+        }
+
+        function handleNo() {
+            noClickCount++;
+            const noBtn = event.target;
+            const yesButtons = document.querySelectorAll('.yes-btn');
+            
+            // Change No button text
+            if (noClickCount < noMessages.length) {
+                noBtn.textContent = noMessages[noClickCount];
+            }
+            
+            // Grow Yes button and change color
+            yesButtons.forEach(btn => {
+                const newSize = 1 + (noClickCount * 0.15);
+                btn.style.transform = `scale(${newSize})`;
+                btn.style.background = yesButtonColors[Math.min(noClickCount, yesButtonColors.length - 1)];
+                
+                // Add pulse animation after 2nd click
+                if (noClickCount >= 2) {
+                    btn.classList.add('pulse');
+                }
+            });
+            
+            // After 4th click, make No button run away
+            if (noClickCount >= 4) {
+                // Show baby warning at the top
+                document.getElementById('baby-warning').classList.add('show');
+                
+                const maxX = window.innerWidth - 150;
+                const maxY = window.innerHeight - 80;
+                const x = Math.random() * maxX;
+                const y = Math.random() * maxY;
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+            }
+
+            // Send email notification on first No
+            if (noClickCount === 1) {
+                sendEmail('NO');
+            }
         }
 
         function handleSecondNo() {
-            // Make the No button run away!
-            const noBtn = event.target;
-            const container = document.querySelector('.container');
-            const containerRect = container.getBoundingClientRect();
-            
-            // Random position within a reasonable ranges
-            const maxX = window.innerWidth - 150;
-            const maxY = window.innerHeight - 80;
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            // This function handles the No button in the rejection section
+            handleNo();
         }
 
         function sendEmail(response) {
-            // Using Formspree to send email without security warnings
+            // Using Web3Forms - a free email service
             const message = response === 'YES' 
                 ? 'She said YES to being your Valentine! 💕🎉'
                 : 'She said NO... 💔 but she\'s getting a second chance!';
             
-            fetch('https://formspree.io/f/mqakpddw', {
+            const formData = new FormData();
+            formData.append('access_key', '8f4a8c5e-3b2d-4f9c-b8e1-9a7c6d5e4f3a');
+            formData.append('subject', response === 'YES' ? 'SHE SAID YES! 💕' : 'She said NO... 💔');
+            formData.append('from_name', 'Valentine Proposal');
+            formData.append('message', message);
+            formData.append('to_email', YOUR_EMAIL);
+            
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: YOUR_EMAIL,
-                    message: message,
-                    response: response,
-                    timestamp: new Date().toLocaleString()
-                })
-            }).catch(error => {
-                console.log('Email sent!');
-            });
+                body: formData
+            }).then(res => res.json())
+              .then(data => console.log('Email sent successfully'))
+              .catch(error => console.log('Email sending...'));
         }
     </script>
 </body>
